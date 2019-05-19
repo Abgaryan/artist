@@ -18,6 +18,7 @@ project.ext {
     rx_android = "2.1.0"
     rxjava2_adapter = "1.0.0"
     retrofit = "2.5.0"
+    dagger_version = "2.16"
     junit = "4.12"
     runner = "1.1.1"
     espresso_core = "3.1.1"
@@ -74,6 +75,14 @@ dependencies {
     // Rx java
     implementation "io.reactivex.rxjava2:rxjava:$project.rx_java"
     implementation "io.reactivex.rxjava2:rxandroid:$project.rx_android"
+
+    // Dagger
+    kapt "com.google.dagger:dagger-android-processor:$project.dagger_version"
+    kapt  "com.google.dagger:dagger-compiler:$project.dagger_version"
+    implementation "com.google.dagger:dagger:$project.dagger_version"
+    implementation "com.google.dagger:dagger-android:$project.dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$project.dagger_version"
+
 
     testImplementation "junit:junit:$project.junit"
     androidTestImplementation "androidx.test:runner:$project.runner"
