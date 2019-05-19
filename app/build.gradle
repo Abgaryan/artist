@@ -22,6 +22,7 @@ project.ext {
     junit = "4.12"
     runner = "1.1.1"
     espresso_core = "3.1.1"
+    mockito_inline = "2.11.0"
 
 
 }
@@ -87,5 +88,7 @@ dependencies {
     testImplementation "junit:junit:$project.junit"
     androidTestImplementation "androidx.test:runner:$project.runner"
     androidTestImplementation "androidx.test.espresso:espresso-core:$project.espresso_core"
+
+    testImplementation "org.mockito:mockito-inline:$project.mockito_inline"
 
 }
