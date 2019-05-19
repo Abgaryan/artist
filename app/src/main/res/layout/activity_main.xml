@@ -6,8 +6,9 @@
         android:layout_height="match_parent">
     <SearchView android:id="@+id/search_query"
                 android:layout_width="match_parent"
+                android:layout_height="64dp"
                 android:queryHint="@string/hint_type_to_search"
-                android:layout_height="64dp"/>
+               />
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
