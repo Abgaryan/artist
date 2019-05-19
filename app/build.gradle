@@ -16,6 +16,7 @@ project.ext {
     rx_java = "2.2.5"
     rx_android = "2.1.0"
     rxjava2_adapter = "1.0.0"
+    retrofit = "2.5.0"
     junit = "4.12"
     runner = "1.1.1"
     espresso_core = "3.1.1"
@@ -62,6 +63,11 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$project.lifecycle_extensions"
     implementation "androidx.legacy:legacy-support-v4:$project.legacy_support_v4"
     implementation "androidx.lifecycle:lifecycle-extensions:$project.lifecycle_extensions"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$project.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$project.retrofit"
+    implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$project.rxjava2_adapter"
 
     // Rx java
     implementation "io.reactivex.rxjava2:rxjava:$project.rx_java"
