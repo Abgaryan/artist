@@ -4,52 +4,46 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.idagio.artists.model.Person
 import com.idagio.artists.repository.ArtistsRepository
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.ObservableOnSubscribe
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.idagio.artists.schedulers.BaseSchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
 class MainActivityViewModel @Inject
-constructor(val artistsRepository: ArtistsRepository) : ViewModel() {
+constructor(val artistsRepository: ArtistsRepository, val schedulerProvider: BaseSchedulerProvider) : ViewModel() {
 
     private val disposable: CompositeDisposable = CompositeDisposable()
-
+    private val subject = PublishSubject.create<String>()
     val loading = MutableLiveData<Boolean>()
     val persons = MutableLiveData<List<Person>>()
 
-
-    private lateinit var searchObservableEmitter: ObservableEmitter<String?>
-
     init {
-        disposable.add(Observable.create(
-            ObservableOnSubscribe<String> { subscriber ->
-                searchObservableEmitter = subscriber
-            })
-            .map { text -> text.toLowerCase().trim() }
-            .debounce(300, TimeUnit.MILLISECONDS)
-            .filter { text -> text.length > 2 }
-            .subscribe { text ->
-                loadArtists(text)
-            })
+        disposable.add(
+            subject
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.io())
+                .map { text -> text.toLowerCase().trim() }
+                .debounce(300, TimeUnit.MILLISECONDS)
+                .filter { text -> text.length > 2 }
+                .subscribe { text ->
+                    loadArtists(text)
+                })
     }
 
 
     fun searchArtist(term: String?) {
-        searchObservableEmitter.onNext(term ?: "")
+        subject.onNext(term ?: "")
     }
 
 
     private fun loadArtists(term: String) {
         loading.postValue(true)
         disposable.add(
-            artistsRepository.searchArtists(term).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+            artistsRepository.searchArtists(term).subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
                 .map { artistsResultWrapper -> artistsResultWrapper.artists.persons }
                 .subscribeWith(object : DisposableSingleObserver<List<Person>>() {
                     override fun onSuccess(value: List<Person>) {
