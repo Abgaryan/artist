@@ -23,6 +23,7 @@ project.ext {
     runner = "1.1.1"
     espresso_core = "3.1.1"
     mockito_inline = "2.11.0"
+    core_testing = "1.1.1"
 
 
 }
@@ -43,6 +44,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 }
 
@@ -90,5 +95,6 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$project.espresso_core"
 
     testImplementation "org.mockito:mockito-inline:$project.mockito_inline"
+    testImplementation "android.arch.core:core-testing:$project.core_testing"
 
 }
