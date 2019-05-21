@@ -2,6 +2,8 @@ package com.idagio.artists.di
 
 import androidx.lifecycle.ViewModelProvider
 import com.idagio.artists.repository.ArtistsDataSource
+import com.idagio.artists.schedulers.BaseSchedulerProvider
+import com.idagio.artists.schedulers.SchedulerProvider
 import com.idagio.artists.view.ViewModelFactory
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
@@ -32,5 +34,10 @@ internal class AppModule {
     ): ViewModelProvider.Factory {
 
         return ViewModelFactory(viewModelSubComponent.build())
+    }
+
+    @Provides
+    fun providesSchedulerProvider(): BaseSchedulerProvider {
+        return SchedulerProvider()
     }
 }
